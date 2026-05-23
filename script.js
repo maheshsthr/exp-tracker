@@ -22,6 +22,8 @@ const resetFormBtn = document.getElementById('resetFormBtn');
 let expenses = [];
 let editingId = null;
 let userTheme = localStorage.getItem('expense-tracker-theme') || 'light';
+const todayDateString = new Date().toISOString().slice(0, 10);
+expenseDateInput.max = todayDateString;
 
 const CATEGORY_LABELS = ['Food', 'Travel', 'Bills', 'Shopping', 'Other'];
 
@@ -197,6 +199,11 @@ function handleFormSubmit(event) {
   const date = expenseDateInput.value;
 
   if (!name || Number.isNaN(amount) || !date) {
+    return;
+  }
+
+  if (date > todayDateString) {
+    alert('Expense date cannot be in the future. Please choose today or an earlier date.');
     return;
   }
 
